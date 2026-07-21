@@ -4,9 +4,6 @@ int main(int argc, char const *argv[])
 {
     int v, e;
 
-    int branches[v-1][2];
-    int chords[e-v+1][2];
-
     printf("Enter no. of vertices: ");
     scanf("%d",&v);
 
@@ -16,6 +13,9 @@ int main(int argc, char const *argv[])
     int edges[e][2];
     int adm[v][v];
     
+    int branches[v-1][2];
+    int chords[e-v+1][2];
+
     for (int i = 0; i < e; i++)
     {
         printf("Enter edge %d: ",i);
@@ -82,14 +82,26 @@ int main(int argc, char const *argv[])
 
     for (int i = 0; i < e; i++)
     {
-        if (branches[i][0] != edges[i][0] && branches[i][1] != edges[i][1])
+        int found = 0;
+
+        for (int j = 0; j < v - 1; j++)
+        {
+            if ((branches[j][0] == edges[i][0] && branches[j][1] == edges[i][1]) ||
+                (branches[j][0] == edges[i][1] && branches[j][1] == edges[i][0]))
+            {
+                found = 1;
+                break;
+            }
+        }
+
+        if (!found)
         {
             chords[m][0] = edges[i][0];
             chords[m][1] = edges[i][1];
             m++;
         }
     }
-    
+
     printf("Branches:\n");
     for (int i = 0; i < v-1; i++)
     {
