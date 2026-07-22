@@ -129,14 +129,16 @@ int main(int argc, char const *argv[])
         }
     }
 
-    int fundamentalCutSet[v-1][2];
+    int fundamentalCutSets[v-1][e-v+2][2];
 
     int c = 0;
 
     for (int i = 0; i < v-1; i++)
     {
-        fundamentalCutSet[i][0] = 0;
-        fundamentalCutSet[i][1] = 0;
+        for(int j = 0; j < e-v+2; j++){
+            fundamentalCutSets[i][j][0] = -1;
+            fundamentalCutSets[i][j][1] = -1;
+        }
     }
 
     for (int i = 0; i < v-1; i++)
@@ -147,15 +149,27 @@ int main(int argc, char const *argv[])
             {
                 int adm1[v][v];
                 
+                int ch[e-v+1][2];
+                
+                for (int a = 0; a < e-v+1; a++)
+                {
+                    ch[a][0] = -1;
+                    ch[a][1] = -1;
+                }
+                
                 for (int i = 0; i < e; i++)
                 {
                     if ((edges[i][0] == branches[i][0] && edges[i][1] == branches[i][1]) || (edges[i][0] == branches[i][1] && edges[i][1] == branches[i][0]) )
                     {
                         continue;
                     }
-                    
-                    adm[edges[i][0]][edges[i][1]] = 1;
-                    adm[edges[i][1]][edges[i][0]] = 1;
+                    else if (){
+                        
+                    }
+                    else{
+                        adm[edges[i][0]][edges[i][1]] = 1;
+                        adm[edges[i][1]][edges[i][0]] = 1;
+                    }
                 }
 
                 int group = 0;
@@ -171,8 +185,15 @@ int main(int argc, char const *argv[])
 
                 if (group > 1)
                 {
-                    fundamentalCutSet[c][0] = branches[i][0];
-                    fundamentalCutSet[c][1] = branches[i][1];
+                    fundamentalCutSets[c][0][0] = branches[i][0];
+                    fundamentalCutSets[c][0][1] = branches[i][1];
+                    
+                    for(int b = 0; b < e-v+1; b++){
+                        fundamentalCutSets[c][b+1][0] = ch[b][0];
+                        fundamentalCutSets[c][b+1][1] = ch[b][1];
+                    }
+                    
+                    c++;
                 }
                 
             }
