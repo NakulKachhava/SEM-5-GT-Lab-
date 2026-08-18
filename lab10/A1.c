@@ -90,7 +90,7 @@ void findMatching()
         {
             freq[x] = 0;
         }
-        for (j = 0; j < 5; j++)
+        for (j = 0; j < E; j++)
         {
             if (combinations[i][j] != -1)
             {
@@ -104,9 +104,10 @@ void findMatching()
             if (freq[k] > 1)
             {
                 flag = 1;
+                break;
             }
         }
-        if (flag != 1)
+        if (flag == 0)
         {
             printMatching(i);
         }
@@ -116,13 +117,60 @@ void findMatching()
 void findMaximalMatching()
 {
     int i, j, e;
-    int index;
+    int flag;
     int edgeIndex;
     int start, end;
     int freq[V];
     int maximal;
 
-    //code for Find Maximal Matching
+    for (i = 0; i < 32; i++)
+    {
+        for (j = 0; j < V; j++)
+        {
+            freq[j] = 0;
+        }
+
+        for (j = 0; j < 5; j++)
+        {
+            if (combinations[i][j] != -1)
+            {
+                freq[edges[combinations[i][j]][0]] += 1;
+                freq[edges[combinations[i][j]][1]] += 1;
+            }
+        }
+
+        flag = 0;
+        for (j = 0; j < V; j++)
+        {
+            if (freq[j] > 1)
+            {
+                flag = 1;
+                break;
+            }
+        }
+
+        if (flag == 0)
+        {
+            maximal = 1;
+            
+            for (edgeIndex = 0; edgeIndex < E; edgeIndex++)
+            {
+                start = edges[edgeIndex][0];
+                end = edges[edgeIndex][1];
+
+                if (freq[start] == 0 && freq[end] == 0)
+                {
+                    maximal = 0; 
+                    break;
+                }
+            }
+
+            if (maximal == 1)
+            {
+                printMatching(i);
+            }
+        }
+    }
 }
 
 void findMaximumMatching()
@@ -146,7 +194,7 @@ void findMaximumMatching()
         {
             freq[x] = 0;
         }
-        for (j = 0; j < 5; j++)
+        for (j = 0; j < E; j++)
         {
             if (combinations[i][j] != -1)
             {
@@ -160,9 +208,10 @@ void findMaximumMatching()
             if (freq[k] > 1)
             {
                 flag = 1;
+                break;
             }
         }
-        if (flag != 1)
+        if (flag == 0)
         {
             size = i;
         }
